@@ -5,42 +5,61 @@ Attribute VB_Name = "ModuleUartCmd"
 Option Explicit
 
 Private mSendDataBuf(0 To 10) As Byte
+Private mDDCDataWithoutChksum(0 To 5) As Byte
+Private i As Integer
 
 Private Sub SendCmd()
     Form1.MSComm1.Output = mSendDataBuf
     DelayMS 500
 End Sub
 
-Public Sub BurningMode01()
-    'E0 0B 40 17 0F 01 01 00 00 00 AC
-    mSendDataBuf(0) = &HE0
-    mSendDataBuf(1) = &HB
-    mSendDataBuf(2) = &H40
-    mSendDataBuf(3) = &H17
-    mSendDataBuf(4) = &HF
-    mSendDataBuf(5) = &H1
-    mSendDataBuf(6) = &H1
-    mSendDataBuf(7) = &H0
-    mSendDataBuf(8) = &H0
-    mSendDataBuf(9) = &H0
-    mSendDataBuf(10) = &HAC
+Private Function CalDDCChkSum(ByRef data() As Byte) As Byte
+    Dim tmp As Integer
 
-    SendCmd
+    tmp = 0
+    CalDDCChkSum = &H0
+
+    For i = 0 To 5
+        tmp = tmp + data(i)
+    Next i
+    
+    CalDDCChkSum = tmp And &HF
+End Function
+
+Private Function CalChkSum(ByRef data() As Byte) As Byte
+    Dim tmp As Integer
+
+    tmp = 0
+    CalChkSum = &H0
+
+    For i = 0 To 9
+        tmp = tmp + data(i)
+    Next i
+    
+    CalChkSum = &HFF - tmp And &HFF
+End Function
+
+Private Sub DataToDDC()
+    For i = 0 To 5
+        mDDCDataWithoutChksum(i) = mSendDataBuf(i + 4)
+    Next i
 End Sub
 
-Public Sub BurningMode02()
-    'E0 0B 40 27 0F 01 02 00 00 00 9B
+Public Sub BurningMode(intBurningMode As Integer)
+    'E0 0B 40 X7 0F 01 XX 00 00 00 CHK
     mSendDataBuf(0) = &HE0
     mSendDataBuf(1) = &HB
     mSendDataBuf(2) = &H40
-    mSendDataBuf(3) = &H27
     mSendDataBuf(4) = &HF
     mSendDataBuf(5) = &H1
-    mSendDataBuf(6) = &H2
+    mSendDataBuf(6) = intBurningMode
     mSendDataBuf(7) = &H0
     mSendDataBuf(8) = &H0
     mSendDataBuf(9) = &H0
-    mSendDataBuf(10) = &H9B
+
+    DataToDDC
+    mSendDataBuf(3) = CalDDCChkSum(mDDCDataWithoutChksum) * 16 + &H7
+    mSendDataBuf(10) = CalChkSum(mSendDataBuf)
 
     SendCmd
 End Sub

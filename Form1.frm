@@ -11,6 +11,23 @@ Begin VB.Form Form1
    ScaleHeight     =   1710
    ScaleWidth      =   8655
    StartUpPosition =   2  'CenterScreen
+   Begin VB.CommandButton BtnMode03 
+      Caption         =   "Mode 03"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   15.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   495
+      Left            =   6050
+      TabIndex        =   4
+      Top             =   1080
+      Width           =   2500
+   End
    Begin VB.CommandButton BtnMode02 
       Caption         =   "Mode 02"
       BeginProperty Font 
@@ -23,10 +40,10 @@ Begin VB.Form Form1
          Strikethrough   =   0   'False
       EndProperty
       Height          =   495
-      Left            =   5640
+      Left            =   3120
       TabIndex        =   3
       Top             =   1080
-      Width           =   2895
+      Width           =   2500
    End
    Begin VB.CommandButton BtnMode01 
       Caption         =   "Mode 01"
@@ -43,7 +60,7 @@ Begin VB.Form Form1
       Left            =   120
       TabIndex        =   2
       Top             =   1080
-      Width           =   2895
+      Width           =   2500
    End
    Begin VB.PictureBox PictureLogo 
       Appearance      =   0  'Flat
@@ -144,7 +161,7 @@ On Error GoTo ErrExit
         MSComm1.PortOpen = True
     End If
     
-    BurningMode01
+    BurningMode 0
     Exit Sub
 ErrExit:
     MsgBox Err.Description, vbCritical, Err.Source
@@ -156,7 +173,19 @@ On Error GoTo ErrExit
         MSComm1.PortOpen = True
     End If
     
-    BurningMode02
+    BurningMode 1
+    Exit Sub
+ErrExit:
+    MsgBox Err.Description, vbCritical, Err.Source
+End Sub
+
+Private Sub BtnMode03_Click()
+On Error GoTo ErrExit
+    If MSComm1.PortOpen = False Then
+        MSComm1.PortOpen = True
+    End If
+    
+    BurningMode 2
     Exit Sub
 ErrExit:
     MsgBox Err.Description, vbCritical, Err.Source
