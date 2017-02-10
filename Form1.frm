@@ -1,18 +1,52 @@
 VERSION 5.00
-Object = "{648A5603-2C6E-101B-82B6-000000000014}#1.1#0"; "MSCOMM32.OCX"
+Object = "{648A5603-2C6E-101B-82B6-000000000014}#1.1#0"; "mscomm32.ocx"
 Begin VB.Form Form1 
    Caption         =   "Letv Max65 Burning Mode Tool"
-   ClientHeight    =   1710
+   ClientHeight    =   2430
    ClientLeft      =   60
    ClientTop       =   750
    ClientWidth     =   8655
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   1710
+   ScaleHeight     =   2430
    ScaleWidth      =   8655
    StartUpPosition =   2  'CenterScreen
+   Begin VB.CommandButton BtnBurningModeOff 
+      Caption         =   "Disable Burning Mode"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   15.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   495
+      Left            =   4560
+      TabIndex        =   6
+      Top             =   1800
+      Width           =   4000
+   End
+   Begin VB.CommandButton BtnBurningModeOn 
+      Caption         =   "Enable Burning Mode"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   15.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   495
+      Left            =   120
+      TabIndex        =   5
+      Top             =   1800
+      Width           =   4000
+   End
    Begin VB.CommandButton BtnMode03 
-      Caption         =   "Mode 03"
+      Caption         =   "Pattern 03"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   15.75
@@ -29,7 +63,7 @@ Begin VB.Form Form1
       Width           =   2500
    End
    Begin VB.CommandButton BtnMode02 
-      Caption         =   "Mode 02"
+      Caption         =   "Pattern 02"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   15.75
@@ -46,7 +80,7 @@ Begin VB.Form Form1
       Width           =   2500
    End
    Begin VB.CommandButton BtnMode01 
-      Caption         =   "Mode 01"
+      Caption         =   "Pattern 01"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   15.75
@@ -155,13 +189,43 @@ Private Sub SubInitComPort()
     MSComm1.OutBufferSize = 512
 End Sub
 
+Private Sub BtnBurningModeOff_Click()
+On Error GoTo ErrExit
+    If MSComm1.PortOpen = False Then
+        MSComm1.PortOpen = True
+    End If
+
+    BurningMode 0
+    RebootMonitor
+
+    DelayMS 5000
+    Exit Sub
+ErrExit:
+    MsgBox Err.Description, vbCritical, Err.Source
+End Sub
+
+Private Sub BtnBurningModeOn_Click()
+On Error GoTo ErrExit
+    If MSComm1.PortOpen = False Then
+        MSComm1.PortOpen = True
+    End If
+
+    BurningMode 1
+    RebootMonitor
+
+    DelayMS 5000
+    Exit Sub
+ErrExit:
+    MsgBox Err.Description, vbCritical, Err.Source
+End Sub
+
 Private Sub BtnMode01_Click()
 On Error GoTo ErrExit
     If MSComm1.PortOpen = False Then
         MSComm1.PortOpen = True
     End If
     
-    BurningMode 0
+    PanelPattern 0
     Exit Sub
 ErrExit:
     MsgBox Err.Description, vbCritical, Err.Source
@@ -173,7 +237,7 @@ On Error GoTo ErrExit
         MSComm1.PortOpen = True
     End If
     
-    BurningMode 1
+    PanelPattern 1
     Exit Sub
 ErrExit:
     MsgBox Err.Description, vbCritical, Err.Source
@@ -185,7 +249,7 @@ On Error GoTo ErrExit
         MSComm1.PortOpen = True
     End If
     
-    BurningMode 2
+    PanelPattern 2
     Exit Sub
 ErrExit:
     MsgBox Err.Description, vbCritical, Err.Source

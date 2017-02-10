@@ -1,7 +1,7 @@
 Type=Exe
 Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
 Reference=*\G{F5078F18-C551-11D3-89B9-0000F81FE221}#6.0#0#..\..\..\..\WINDOWS\system32\msxml6.dll#Microsoft XML, v6.0
-Object={648A5603-2C6E-101B-82B6-000000000014}#1.1#0; MSCOMM32.OCX
+Object={648A5603-2C6E-101B-82B6-000000000014}#1.1#0; mscomm32.ocx
 Form=Form1.frm
 Form=FrmComPort.frm
 Module=GlobalVariables; GlobalVariables.bas
@@ -19,7 +19,7 @@ HelpContextID="0"
 CompatibleMode="0"
 MajorVer=1
 MinorVer=0
-RevisionVer=0
+RevisionVer=1
 AutoIncrementVer=0
 ServerSupportFiles=0
 VersionCompanyName="Echom"
