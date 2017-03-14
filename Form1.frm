@@ -1,7 +1,7 @@
 VERSION 5.00
 Object = "{648A5603-2C6E-101B-82B6-000000000014}#1.1#0"; "mscomm32.ocx"
 Begin VB.Form Form1 
-   Caption         =   "Letv Max65 Burning Mode Tool"
+   Caption         =   "Letv MST6M60 Burning Mode Tool"
    ClientHeight    =   2430
    ClientLeft      =   60
    ClientTop       =   750
@@ -122,7 +122,7 @@ Begin VB.Form Form1
       Appearance      =   0  'Flat
       BackColor       =   &H0080FF80&
       BorderStyle     =   1  'Fixed Single
-      Caption         =   "Max65 Burning Mode"
+      Caption         =   "6M60 Burning Mode"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   30
@@ -198,7 +198,7 @@ On Error GoTo ErrExit
     BurningMode 0
     RebootMonitor
 
-    DelayMS 5000
+    'DelayMS 5000
     Exit Sub
 ErrExit:
     MsgBox Err.Description, vbCritical, Err.Source
@@ -213,7 +213,7 @@ On Error GoTo ErrExit
     BurningMode 1
     RebootMonitor
 
-    DelayMS 5000
+    'DelayMS 5000
     Exit Sub
 ErrExit:
     MsgBox Err.Description, vbCritical, Err.Source
